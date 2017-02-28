@@ -11,6 +11,8 @@ public interface StudentGroupDao {
 
     List<Student> getAllStudents() throws DataAccessException;
 
+    List<Student> getStudentFromGroup(Group group) throws DataAccessException;
+
     Integer addStudent(Student student) throws DataAccessException;
 
     /**

@@ -27,28 +27,44 @@ public class DaoImplTest {
 
     @Test
     public void getAllStudents() throws Exception {
+        LOGGER.debug("test: getAllStudents()");
+
         List<Student> studentList = studentGroupDao.getAllStudents();
         assertTrue(studentList.size() == 10);
     }
 
     @Test
     public void addStudent() throws Exception {
+        LOGGER.debug("test: addStudent()");
 
+        Student student = new Student("Petro", 6.2f);
+        Integer studentId = studentGroupDao.addStudent(student);
+
+        student = studentGroupDao.getStudentById(studentId);
+        assertTrue(student.getName().equals("Petro"));
     }
 
     @Test
     public void getStudentById() throws Exception {
-
+        Student student = studentGroupDao.getStudentById(1);
+        assertTrue(student.getName().equals("Vadim"));
     }
 
     @Test
     public void updateStudent() throws Exception {
+        Student student = studentGroupDao.getStudentById(2);
+        student.setGpa(5.0f);
 
+        studentGroupDao.updateStudent(student);
+        student = studentGroupDao.getStudentById(2);
+        assertTrue(student.getGpa() == 5.0f);
     }
 
     @Test
     public void deleteStudent() throws Exception {
-
+        studentGroupDao.deleteStudent(1);
+        Student student = studentGroupDao.getStudentById(1);
+        assertNull(student);
     }
 
     @Test

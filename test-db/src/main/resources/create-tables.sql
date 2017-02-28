@@ -18,5 +18,7 @@ DROP TABLE IF EXISTS students_in_groups;
 CREATE TABLE students_in_groups (
   student_id INT  NOT NULL,
   group_id   INT  NOT NULL,
-  PRIMARY KEY (student_id)
+  PRIMARY KEY (student_id, group_id),
+  FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE,
+  FOREIGN KEY (group_id) REFERENCES student_groups(group_id) ON DELETE CASCADE
 );

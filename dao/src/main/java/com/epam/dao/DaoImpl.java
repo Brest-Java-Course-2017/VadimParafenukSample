@@ -5,9 +5,14 @@ import com.epam.Student;
 import com.epam.StudentGroupDao;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -69,82 +74,145 @@ public class DaoImpl implements StudentGroupDao {
         namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    @Override
     public List<Student> getAllStudents() throws DataAccessException {
-        return jdbcTemplate.query(getAllStudentsSql, new StudentUserRowMapper());
+        return jdbcTemplate.query(getAllStudentsSql, new StudentRowMapper());
     }
 
-    @Override
+    public List<Student> getStudentFromGroup(Group group) throws DataAccessException {
+        return null;
+    }
+
     public Integer addStudent(Student student) throws DataAccessException {
-        return null;
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+
+        parameterSource.addValue(STUDENT_ID, student.getStudentId());
+        parameterSource.addValue(STUDENT_NAME, student.getName());
+        parameterSource.addValue(GPA, student.getGpa());
+
+        namedParameterJdbcTemplate.update(addStudentSql, parameterSource, keyHolder);
+        return keyHolder.getKey().intValue();
     }
 
-    @Override
     public Student getStudentById(Integer studentId) throws DataAccessException {
-        return null;
+        try {
+            SqlParameterSource namedParameters = new MapSqlParameterSource(STUDENT_ID, studentId);
+            Student student = namedParameterJdbcTemplate.queryForObject(getStudentByIdSql, namedParameters, new StudentRowMapper());
+
+            return student;
+        } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
+            return null;
+        }
     }
 
-    @Override
     public void updateStudent(Student student) throws DataAccessException {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
 
+        parameterSource.addValue(STUDENT_ID, student.getStudentId());
+        parameterSource.addValue(STUDENT_NAME, student.getName());
+        parameterSource.addValue(GPA, student.getGpa());
+
+        if (namedParameterJdbcTemplate.update(updateStudentSql, parameterSource) == 0)
+            throw new DataAccessException("There is no student with ID " + Integer.toString(student.getStudentId())){};
     }
 
-    @Override
     public void deleteStudent(Integer studentId) throws DataAccessException {
+        SqlParameterSource namedParameters = new MapSqlParameterSource(STUDENT_ID, studentId);
+        if (namedParameterJdbcTemplate.update(deleteStudentSql, namedParameters) == 0)
+            throw new DataAccessException("There is no student with ID " + Integer.toString(studentId)) {};
 
+//        List<StudentInGroup> studentInGroups = jdbcTemplate.query("select * from students_in_groups", new StudentInGroupRowMapper());
     }
 
-    @Override
     public List<Group> getAllGroups() throws DataAccessException {
         return null;
     }
 
-    @Override
     public Integer addGroup(Group group) throws DataAccessException {
         return null;
     }
 
-    @Override
     public Group getGroupById(Integer groupId) throws DataAccessException {
         return null;
     }
 
-    @Override
     public Group getGroupByName(String groupName) throws DataAccessException {
         return null;
     }
 
-    @Override
     public void updateGroup(Group group) throws DataAccessException {
 
     }
 
-    @Override
     public void deleteGroup(Integer groupId) throws DataAccessException {
 
     }
 
-    @Override
     public void wireStudentAndGroup(Integer studentId, Integer groupId) throws DataAccessException {
 
     }
 
-    @Override
     public void deleteStudentFromGroup(Integer studentId) throws DataAccessException {
 
     }
 
-    private class StudentUserRowMapper implements RowMapper<Student> {
+//    private class StudentInGroup {
+//
+//        private Integer studentId;
+//        private Integer groupId;
+//
+//        public StudentInGroup(Integer studentId, Integer groupId) {
+//            this.studentId = studentId;
+//            this.groupId = groupId;
+//        }
+//
+//        public Integer getStudentId() {
+//            return studentId;
+//        }
+//
+//        public void setStudentId(Integer studentId) {
+//            this.studentId = studentId;
+//        }
+//
+//        public Integer getGroupId() {
+//            return groupId;
+//        }
+//
+//        public void setGroupId(Integer groupId) {
+//            this.groupId = groupId;
+//        }
+//    }
+//
+//    private class StudentInGroupRowMapper implements RowMapper<StudentInGroup> {
+//        @Override
+//        public StudentInGroup mapRow(ResultSet resultSet, int i) throws SQLException {
+//            StudentInGroup studentInGroup = new StudentInGroup(resultSet.getInt("student_id"),
+//                    resultSet.getInt("group_id"));
+//
+//            return studentInGroup;
+//        }
+//    }
 
-        @Override
+    private class GroupRowMapper implements RowMapper<Group> {
+
+        public Group mapRow(ResultSet resultSet, int i) throws SQLException {
+            Group group = new Group(resultSet.getInt("group_id"),
+                                    resultSet.getString("name"),
+                                    resultSet.getString("speciality"));
+
+            return group;
+        }
+    }
+
+    private class StudentRowMapper implements RowMapper<Student> {
+
         public Student mapRow(ResultSet resultSet, int i) throws SQLException {
-            Student user = new Student(resultSet.getInt("student_id"),
+            Student student = new Student(resultSet.getInt("student_id"),
                                        resultSet.getString("name"),
                                        resultSet.getFloat("gpa"));
 
-            return user;
+            return student;
         }
-
     }
 
 }
