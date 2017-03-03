@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Users</title>
+
+    <link rel="stylesheet" href="../../resources/static/assets/material-design-icons/material-design-icons.css" type="text/css"/>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../resources/static/assets/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+
+    <link href="../../resources/static/assets/pages/css/users.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <h2 th:text="'User with login ' + ${login} + ' already exist!'">User with this login already exist!</h2>
+    <a href="./"><button class="btn btn-danger" type="button">OK</button></a>
+
+<script src="../../resources/static/assets/js/jquery/jquery-3.1.1.min.js"></script>
+<script src="../../resources/static/assets/js/tether.min.js"></script>
+<script src="../../resources/static/assets/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../../resources/static/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+<script src="../../resources/static/assets/pages/js/users.js"></script>
+
+</body>
+</html>
