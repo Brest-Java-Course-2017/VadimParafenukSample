@@ -151,7 +151,15 @@ public class DaoImplTest {
         List<Student> studFromGroup = studentGroupDao.getStudents(null, null, 1);
 
         Float studGpa = 0f;
+        for (int i = 0; i < studFromGroup.size(); studGpa += studFromGroup.get(i++).getGpa());
+        studGpa /= studFromGroup.size();
 
+        assertEquals(groupGpa, studGpa);
+
+        groupGpa = studentGroupDao.getStudentsGpa(null);
+        studFromGroup = studentGroupDao.getStudents(null, null, null);
+
+        studGpa = 0f;
         for (int i = 0; i < studFromGroup.size(); studGpa += studFromGroup.get(i++).getGpa());
         studGpa /= studFromGroup.size();
 

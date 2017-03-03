@@ -49,8 +49,8 @@ public class DaoImpl implements StudentGroupDao {
     @Value("${StudentGroupDaoSql.getGroupsCount}")
     String getGroupsCountSql;
 
-    @Value("${StudentGroupDaoSql.getGroupGpa}")
-    String getGroupGpaSql;
+    @Value("${StudentGroupDaoSql.getStudentsGpa}")
+    String getStudentsGpaSql;
 
     @Value("${StudentGroupDaoSql.getGroupById}")
     String getGroupByIdSql;
@@ -183,7 +183,7 @@ public class DaoImpl implements StudentGroupDao {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue(GROUP_ID, groupId);
 
-        return namedParameterJdbcTemplate.queryForObject(getGroupGpaSql, parameterSource, Float.class);
+        return namedParameterJdbcTemplate.queryForObject(getStudentsGpaSql, parameterSource, Float.class);
     }
 
     public Integer updateGroup(Group group) throws DataAccessException {
