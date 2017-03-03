@@ -9,9 +9,7 @@ import java.util.List;
  */
 public interface StudentGroupDao {
 
-    List<Student> getAllStudents() throws DataAccessException;
-
-    List<Student> getStudentFromGroup(Group group) throws DataAccessException;
+    List<Student> getStudents(Float minGpa, Float maxGpa, Integer groupId) throws DataAccessException;
 
     Integer addStudent(Student student) throws DataAccessException;
 
@@ -24,9 +22,18 @@ public interface StudentGroupDao {
      */
     Student getStudentById(Integer studentId) throws DataAccessException;
 
-    void updateStudent(Student student) throws DataAccessException;
+    /**
+     * Return count of students in group, or all students if groupId is null
+     *
+     * @param groupId
+     * @return Count of students in group or all students if groupId is null
+     * @throws DataAccessException
+     */
+    Integer getStudentsCount(Integer groupId) throws DataAccessException;
 
-    void deleteStudent(Integer studentId) throws DataAccessException;
+    Integer updateStudent(Student student) throws DataAccessException;
+
+    Integer deleteStudent(Integer studentId) throws DataAccessException;
 
     List<Group> getAllGroups() throws DataAccessException;
 
@@ -36,12 +43,17 @@ public interface StudentGroupDao {
 
     Group getGroupByName(String groupName) throws DataAccessException;
 
-    void updateGroup(Group group) throws DataAccessException;
+    Integer getGroupsCount() throws DataAccessException;
 
-    void deleteGroup(Integer groupId) throws DataAccessException;
+    /**
+     * Get students group GPA. If groupId is null, return GPA for all students.
+     * @param groupId
+     * @return Students group GPA or all students GPA if groupId is null
+     * @throws DataAccessException
+     */
+    Float getStudentsGpa(Integer groupId) throws DataAccessException;
 
-    void wireStudentAndGroup(Integer studentId, Integer groupId) throws DataAccessException;
+    Integer updateGroup(Group group) throws DataAccessException;
 
-    void deleteStudentFromGroup(Integer studentId) throws DataAccessException;
-
+    Integer deleteGroup(Integer groupId) throws DataAccessException;
 }

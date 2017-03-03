@@ -5,20 +5,27 @@ public class Student {
     private Integer studentId;
     private String name;
     private Float gpa; // Great Point Average
-    private Group group;
+    private Integer groupId;
 
     public Student() {
     }
 
-    public Student(Integer studentId, String name, Float gpa) {
+    public Student(Integer studentId, String name, Float gpa, Integer groupId) {
         this.studentId = studentId;
         this.name = name;
         this.gpa = gpa;
+        this.groupId = groupId;
     }
 
     public Student(String name, Float gpa) {
         this.name = name;
         this.gpa = gpa;
+    }
+
+    public Student(String name, Float gpa, Integer groupId) {
+        this.name = name;
+        this.gpa = gpa;
+        this.groupId = groupId;
     }
 
     public Integer getStudentId() {
@@ -45,12 +52,12 @@ public class Student {
         this.gpa = gpa;
     }
 
-    public Group getGroup() {
-        return group;
+    public Integer getGroupId() {
+        return groupId;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
     }
 
     @Override
@@ -62,7 +69,8 @@ public class Student {
 
         if (studentId != null ? !studentId.equals(student.studentId) : student.studentId != null) return false;
         if (name != null ? !name.equals(student.name) : student.name != null) return false;
-        return gpa != null ? gpa.equals(student.gpa) : student.gpa == null;
+        if (gpa != null ? !gpa.equals(student.gpa) : student.gpa != null) return false;
+        return groupId != null ? groupId.equals(student.groupId) : student.groupId == null;
     }
 
     @Override
@@ -70,6 +78,7 @@ public class Student {
         int result = studentId != null ? studentId.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (gpa != null ? gpa.hashCode() : 0);
+        result = 31 * result + (groupId != null ? groupId.hashCode() : 0);
         return result;
     }
 
@@ -79,6 +88,7 @@ public class Student {
                 "studentId=" + studentId +
                 ", name='" + name + '\'' +
                 ", gpa=" + gpa +
+                ", groupId=" + groupId +
                 '}';
     }
 }

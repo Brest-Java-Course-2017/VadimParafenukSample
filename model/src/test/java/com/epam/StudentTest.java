@@ -34,7 +34,7 @@ public class StudentTest {
 
     @Test
     public void getGroupTest() throws Exception {
-        testStudent.setGroup(new Group("II-12", "AI"));
-        assertEquals(testStudent.getGroup().getName(), "II-12");
+        testStudent.setGroupId(1);
+        assertEquals(testStudent.getGroupId(), (Integer)1);
     }
 }

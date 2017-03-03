@@ -6,20 +6,17 @@ public class Group {
 
     private Integer groupId;
     private String name;
-    private String speciality;
 
     public Group() {
     }
 
-    public Group(String name, String speciality) {
+    public Group(String name) {
         this.name = name;
-        this.speciality = speciality;
     }
 
-    public Group(Integer groupId, String name, String speciality) {
+    public Group(Integer groupId, String name) {
         this.groupId = groupId;
         this.name = name;
-        this.speciality = speciality;
     }
 
     public Integer getGroupId() {
@@ -38,14 +35,6 @@ public class Group {
         this.name = name;
     }
 
-    public String getSpeciality() {
-        return speciality;
-    }
-
-    public void setSpeciality(String speciality) {
-        this.speciality = speciality;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,15 +43,13 @@ public class Group {
         Group group = (Group) o;
 
         if (groupId != null ? !groupId.equals(group.groupId) : group.groupId != null) return false;
-        if (name != null ? !name.equals(group.name) : group.name != null) return false;
-        return speciality != null ? speciality.equals(group.speciality) : group.speciality == null;
+        return name != null ? name.equals(group.name) : group.name == null;
     }
 
     @Override
     public int hashCode() {
         int result = groupId != null ? groupId.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (speciality != null ? speciality.hashCode() : 0);
         return result;
     }
 
@@ -71,7 +58,6 @@ public class Group {
         return "Group{" +
                 "groupId=" + groupId +
                 ", name='" + name + '\'' +
-                ", speciality='" + speciality + '\'' +
                 '}';
     }
 }

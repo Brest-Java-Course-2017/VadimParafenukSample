@@ -1,28 +1,25 @@
-INSERT INTO student_groups (group_id, name, speciality)
-VALUES (1, 'II-12', 'AI'),
-       (2, 'AS-41', 'ASOI'),
-       (3, 'AS-42', 'ASOI');
+INSERT INTO groups (group_id, name)
+VALUES (1, 'II-12'),
+       (2, 'AS-41'),
+       (3, 'AS-42'),
+       (4, 'PE-36'),
+       (5, 'P-192');
 
-INSERT INTO students (student_id, name, gpa)
-VALUES (1, 'Vadim', 8.0),
-       (2, 'Sergey', 9.8),
-       (3, 'Vasiliy', 5.0),
-       (4, 'Petr', 7.8),
-       (5, 'Nikolay', 8.2),
-       (6, 'Nastya', 6.2),
-       (7, 'Roma', 7.0),
-       (8, 'Alexandr', 9.2),
-       (9, 'Akakiy', 10.0),
-       (10, 'XXL Den4ik XXL', 11.0);
-
-INSERT INTO students_in_groups (student_id, group_id)
-VALUES  (1, 1),
-        (2, 1),
-        (3, 2),
-        (4, 2),
-        (5, 3),
-        (6, 3),
-        (7, 3),
-        (8, 2),
-        (9, 3),
-        (10, 1);
+INSERT INTO students (student_id, name, gpa, group_id)
+VALUES (1, 'Vadim',     8.0, 1),
+       (2, 'Sergey',    9.8, 1),
+       (3, 'Vasiliy',   5.0, 2),
+       (4, 'Petr',      7.8, 3),
+       (5, 'Nikolay',   8.2, 2),
+       (6, 'Nastya',    6.2, 4),
+       (7, 'Roma',      7.0, 5),
+       (8, 'Alexandr',  9.2, 5),
+       (9, 'Akakiy',    10.0, 4),
+       (10, 'Denins',   10.0, 1),
+       (11, 'Andrey',   6.5, 2),
+       (12, 'Mihail',   4.2, 3),
+       (13, 'Kirill',   8.2, 4),
+       (14, 'Bob',      7.3, 5),
+       (15, 'Stepan',   6.2, 5),
+       (16, 'Ivan',     6.8, 4),
+       (17, 'Vova',     8.3, 2);
