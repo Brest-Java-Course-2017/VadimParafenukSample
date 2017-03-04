@@ -54,6 +54,14 @@ public class DaoImplTest {
         assertTrue(student.getName().equals("Petro"));
     }
 
+    @Test(expected = org.springframework.dao.DuplicateKeyException.class)
+    public void addExistStudentTest() throws ExecutionException {
+        LOGGER.debug("test: addExistStudentTest()");
+
+        Student student = new Student(1,"Petro", 6.2f, 1);
+        studentGroupDao.addStudent(student);
+    }
+
     @Test
     public void getStudentsCountTest() throws Exception {
         LOGGER.debug("test: getStudentsCountTest()");
@@ -78,12 +86,30 @@ public class DaoImplTest {
     }
 
     @Test
+    public void updateNonexistentStudnt() throws Exception {
+        LOGGER.debug("test: updateNonexistentStudnt()");
+
+        Student student = new Student(1337, "Petro", 4.0f, 1);
+        Integer updatedCount = studentGroupDao.updateStudent(student);
+
+        assertTrue(updatedCount == 0);
+    }
+
+    @Test
     public void deleteStudentTest() throws Exception {
         LOGGER.debug("test: deleteStudentTest()");
 
         studentGroupDao.deleteStudent(1);
         Student student = studentGroupDao.getStudentById(1);
         assertNull(student);
+    }
+
+    @Test
+    public void deleteNonexistentStudentTest() throws Exception {
+        LOGGER.debug("test: deleteNonexistentStudentTest()");
+
+        Integer deletedCount = studentGroupDao.deleteStudent(1337);
+        assertTrue(deletedCount == 0);
     }
 
     @Test
@@ -105,11 +131,30 @@ public class DaoImplTest {
     public void addGroupTest() throws Exception {
         LOGGER.debug("test: addGroupTest()");
 
-        Group group = new Group("II-13");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+        Group group = new Group("II-13", sdf.parse("31/05/2019"));
         Integer groupId = studentGroupDao.addGroup(group);
 
         group = studentGroupDao.getGroupById(groupId);
         assertEquals(group.getName(), "II-13");
+    }
+
+    @Test(expected = org.springframework.dao.DuplicateKeyException.class)
+    public void addExistGroupTest() throws Exception {
+        LOGGER.debug("test: addExistGroupTest()");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+        Group group = new Group(1, "II-13", sdf.parse("31/05/2019"));
+        Integer groupId = studentGroupDao.addGroup(group);
+    }
+
+    @Test(expected = org.springframework.dao.DuplicateKeyException.class)
+    public void addExistGroupByNameTest() throws Exception {
+        LOGGER.debug("test: addExistGroupByNameTest()");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+        Group group = new Group("II-12", sdf.parse("31/05/2018"));
+        Integer groupId = studentGroupDao.addGroup(group);
     }
 
     @Test
@@ -118,6 +163,14 @@ public class DaoImplTest {
 
         Group group = studentGroupDao.getGroupByName("II-12");
         assertTrue(group.getGroupId() == (Integer)1);
+    }
+
+    @Test
+    public void getNonexistentGroupByName() throws Exception {
+        LOGGER.debug("test: getNonexistentGroupByName()");
+
+        Group group = studentGroupDao.getGroupByName("II-13");
+        assertNull(group);
     }
 
     @Test
@@ -137,6 +190,20 @@ public class DaoImplTest {
     }
 
     @Test
+    public void updateNonexistentGroupTest() throws Exception {
+        LOGGER.debug("test: updateNonexistentGroupTest()");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Group group = new Group("DreamTeam", sdf.parse("31/05/2017"));
+
+        Integer updatedCount = studentGroupDao.updateGroup(group);
+        group = studentGroupDao.getGroupById(6);
+
+        assertEquals(updatedCount, (Integer)0);
+        assertNull(group);
+    }
+
+    @Test
     public void deleteGroupTest() throws Exception {
         LOGGER.debug("test: deleteGroupTest()");
 
@@ -149,11 +216,26 @@ public class DaoImplTest {
     }
 
     @Test
+    public void deleteNonexistentGroupTest() throws Exception {
+        LOGGER.debug("test: deleteNonexistentGroupTest()");
+
+        Integer deletedCount = studentGroupDao.deleteGroup(6);
+        assertEquals(deletedCount, (Integer)0);
+    }
+
+    @Test
     public void getGroupCountTest() throws Exception {
         LOGGER.debug("test: getGroupCountTest()");
 
-        Integer groupCount = studentGroupDao.getGroupsCount();
+        Integer groupCount = studentGroupDao.getGroupsCount(null, null);
         assertEquals(groupCount, (Integer)5);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+        Date minGradDate = sdf.parse("01/01/2015");
+        Date maxGradDate = sdf.parse("31/12/2018");
+
+        groupCount = studentGroupDao.getGroupsCount(minGradDate, maxGradDate);
+        assertEquals(groupCount, (Integer)3);
     }
 
     @Test
@@ -177,6 +259,9 @@ public class DaoImplTest {
         studGpa /= studFromGroup.size();
 
         assertEquals(groupGpa, studGpa);
+
+        groupGpa = studentGroupDao.getStudentsGpa(6);
+        assertNull(groupGpa);
     }
 
 }

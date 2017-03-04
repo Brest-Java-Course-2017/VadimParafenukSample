@@ -17,7 +17,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.Date;
 import java.util.List;
 
@@ -156,6 +155,7 @@ public class DaoImpl implements StudentGroupDao {
 
         parameterSource.addValue(GROUP_ID, group.getGroupId());
         parameterSource.addValue(GROUP_NAME, group.getName());
+        parameterSource.addValue(GRADUATION_DATE, group.getGraduationDate());
 
         namedParameterJdbcTemplate.update(addGroupSql, parameterSource, keyHolder);
         return keyHolder.getKey().intValue();
@@ -183,8 +183,13 @@ public class DaoImpl implements StudentGroupDao {
         }
     }
     @Override
-    public Integer getGroupsCount() throws DataAccessException {
-        return jdbcTemplate.queryForObject(getGroupsCountSql, Integer.class);
+    public Integer getGroupsCount(Date minGradDate, Date maxGradDate) throws DataAccessException {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+
+        parameterSource.addValue(MIN_GRADUATION_DATE, minGradDate);
+        parameterSource.addValue(MAX_GRADUATION_DATE, maxGradDate);
+
+        return namedParameterJdbcTemplate.queryForObject(getGroupsCountSql, parameterSource, Integer.class);
     }
 
     @Override

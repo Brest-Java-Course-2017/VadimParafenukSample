@@ -11,8 +11,9 @@ public class Group {
     public Group() {
     }
 
-    public Group(String name) {
+    public Group(String name, Date graduationDate) {
         this.name = name;
+        this.graduationDate = graduationDate;
     }
 
     public Group(Integer groupId, String name, Date graduationDate) {
