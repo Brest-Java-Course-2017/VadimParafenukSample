@@ -12,6 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -85,11 +87,18 @@ public class DaoImplTest {
     }
 
     @Test
-    public void getAllGroupsTest() throws Exception {
-        LOGGER.debug("test: deleteStudentTest()");
+    public void getGroupsTest() throws Exception {
+        LOGGER.debug("test: getGroupsTest()");
 
-        List<Group> groupList = studentGroupDao.getAllGroups();
+        List<Group> groupList = studentGroupDao.getGroups(null, null);
         assertTrue(groupList.size() == 5);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+        Date minGradDate = sdf.parse("01/01/2015");
+        Date maxGradDate = sdf.parse("31/12/2018");
+
+        groupList = studentGroupDao.getGroups(minGradDate, maxGradDate);
+        assertTrue(groupList.size() == 3);
     }
 
     @Test
@@ -115,12 +124,16 @@ public class DaoImplTest {
     public void updateGroupTest() throws Exception {
         LOGGER.debug("test: updateGroupTest()");
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
         Group group = studentGroupDao.getGroupById(2);
         group.setName("DreamTeam");
+        group.setGraduationDate(sdf.parse("31/05/2017"));
 
         studentGroupDao.updateGroup(group);
         group = studentGroupDao.getGroupById(2);
-        assertTrue(group.getName() == "DreamTeam");
+        assertTrue(group.getName().equals("DreamTeam"));
+        assertTrue(group.getGraduationDate().toString().equals("2017-05-31"));
     }
 
     @Test

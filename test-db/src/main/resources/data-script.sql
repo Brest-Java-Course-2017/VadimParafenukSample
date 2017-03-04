@@ -1,9 +1,9 @@
-INSERT INTO groups (group_id, name)
-VALUES (1, 'II-12'),
-       (2, 'AS-41'),
-       (3, 'AS-42'),
-       (4, 'PE-36'),
-       (5, 'P-192');
+INSERT INTO groups (group_id, name, graduation_date)
+VALUES (1, 'II-12', '2018-05-31'),
+       (2, 'AS-41', '2018-05-31'),
+       (3, 'AS-42', '2019-05-31'),
+       (4, 'PE-36', '2017-05-31'),
+       (5, 'P-192', '2019-05-31');
 
 INSERT INTO students (student_id, name, gpa, group_id)
 VALUES (1, 'Vadim',     8.0, 1),

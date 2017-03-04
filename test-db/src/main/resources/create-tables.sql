@@ -1,7 +1,8 @@
 DROP TABLE IF EXISTS groups;
 CREATE TABLE groups (
-  group_id   INT          NOT NULL AUTO_INCREMENT,
-  name       VARCHAR(255) NOT NULL UNIQUE,
+  group_id          INT          NOT NULL AUTO_INCREMENT,
+  name              VARCHAR(255) NOT NULL UNIQUE,
+  graduation_date   DATE         NOT NULL,
   PRIMARY KEY (group_id)
 );
 

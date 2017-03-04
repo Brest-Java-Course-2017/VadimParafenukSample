@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Date;
 import java.util.List;
 
 public class DaoImpl implements StudentGroupDao {
@@ -40,8 +41,8 @@ public class DaoImpl implements StudentGroupDao {
     @Value("${StudentGroupDaoSql.deleteStudent}")
     String deleteStudentSql;
 
-    @Value("${StudentGroupDaoSql.getAllGroups}")
-    String getAllGroupsSql;
+    @Value("${StudentGroupDaoSql.getGroups}")
+    String getGroupsSql;
 
     @Value("${StudentGroupDaoSql.addGroup}")
     String addGroupSql;
@@ -71,6 +72,9 @@ public class DaoImpl implements StudentGroupDao {
     private static final String MAX_GPA = "maxGpa";
     private static final String GROUP_ID = "groupId";
     private static final String GROUP_NAME = "groupName";
+    private static final String GRADUATION_DATE = "gradDate";
+    private static final String MIN_GRADUATION_DATE = "minGradDate";
+    private static final String MAX_GRADUATION_DATE = "maxGradDate";
 
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -137,8 +141,13 @@ public class DaoImpl implements StudentGroupDao {
         return namedParameterJdbcTemplate.update(deleteStudentSql, namedParameters);
     }
 
-    public List<Group> getAllGroups() throws DataAccessException {
-        return jdbcTemplate.query(getAllGroupsSql, new GroupRowMapper());
+    public List<Group> getGroups(Date minGradDate, Date maxGradDate) throws DataAccessException {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+
+        parameterSource.addValue(MIN_GRADUATION_DATE, minGradDate);
+        parameterSource.addValue(MAX_GRADUATION_DATE, maxGradDate);
+
+        return namedParameterJdbcTemplate.query(getGroupsSql, parameterSource, new GroupRowMapper());
     }
 
     public Integer addGroup(Group group) throws DataAccessException {
@@ -191,6 +200,7 @@ public class DaoImpl implements StudentGroupDao {
 
         parameterSource.addValue(GROUP_ID, group.getGroupId());
         parameterSource.addValue(GROUP_NAME, group.getName());
+        parameterSource.addValue(GRADUATION_DATE, group.getGraduationDate());
 
         return namedParameterJdbcTemplate.update(updateGroupSql, parameterSource);
     }
@@ -204,7 +214,8 @@ public class DaoImpl implements StudentGroupDao {
 
         public Group mapRow(ResultSet resultSet, int i) throws SQLException {
             Group group = new Group(resultSet.getInt("group_id"),
-                    resultSet.getString("name"));
+                    resultSet.getString("name"),
+                    resultSet.getDate("graduation_date"));
 
             return group;
         }

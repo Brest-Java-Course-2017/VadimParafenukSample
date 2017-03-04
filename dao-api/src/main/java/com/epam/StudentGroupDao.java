@@ -2,6 +2,7 @@ package com.epam;
 
 import org.springframework.dao.DataAccessException;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public interface StudentGroupDao {
 
     Integer deleteStudent(Integer studentId) throws DataAccessException;
 
-    List<Group> getAllGroups() throws DataAccessException;
+    List<Group> getGroups(Date minGradDate, Date maxGradDate) throws DataAccessException;
 
     Integer addGroup(Group group) throws DataAccessException;
 

@@ -1,11 +1,12 @@
 package com.epam;
 
-import java.util.List;
+import java.util.Date;
 
 public class Group {
 
     private Integer groupId;
     private String name;
+    private Date graduationDate;
 
     public Group() {
     }
@@ -14,9 +15,10 @@ public class Group {
         this.name = name;
     }
 
-    public Group(Integer groupId, String name) {
+    public Group(Integer groupId, String name, Date graduationDate) {
         this.groupId = groupId;
         this.name = name;
+        this.graduationDate = graduationDate;
     }
 
     public Integer getGroupId() {
@@ -35,6 +37,14 @@ public class Group {
         this.name = name;
     }
 
+    public Date getGraduationDate() {
+        return graduationDate;
+    }
+
+    public void setGraduationDate(Date graduationDate) {
+        this.graduationDate = graduationDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,13 +53,15 @@ public class Group {
         Group group = (Group) o;
 
         if (groupId != null ? !groupId.equals(group.groupId) : group.groupId != null) return false;
-        return name != null ? name.equals(group.name) : group.name == null;
+        if (name != null ? !name.equals(group.name) : group.name != null) return false;
+        return graduationDate != null ? graduationDate.equals(group.graduationDate) : group.graduationDate == null;
     }
 
     @Override
     public int hashCode() {
         int result = groupId != null ? groupId.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (graduationDate != null ? graduationDate.hashCode() : 0);
         return result;
     }
 
@@ -58,6 +70,7 @@ public class Group {
         return "Group{" +
                 "groupId=" + groupId +
                 ", name='" + name + '\'' +
+                ", graduationDate=" + graduationDate +
                 '}';
     }
 }
