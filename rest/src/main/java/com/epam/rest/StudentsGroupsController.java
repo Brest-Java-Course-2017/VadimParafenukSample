@@ -53,7 +53,7 @@ public class StudentsGroupsController {
         return service.addStudent(student);
     }
 
-    //curl -H "Content-Type: application/json" -X PUT -d '{"studentId":1,"name":"NewStudent","gpa":4.2,"groupId":1}' -v "localhost:8088/students"
+    // curl -v "localhost:8088/students/count"
     @GetMapping(value = "/students/count")
     public
     @ResponseBody
@@ -62,7 +62,16 @@ public class StudentsGroupsController {
         return service.getStudentsCount(groupId);
     }
 
-    // curl -H "Content-Type: application/json" -X PUT -d '{"name":"SAMPLE_NAME","gpa":4.3,"groupId":1}' -v localhost:8088/students
+    // curl -v "localhost:8088/students/gpa"
+    @GetMapping(value = "/students/gpa")
+    public
+    @ResponseBody
+    Float getStudentsGpa(@RequestParam(value = "groupId", required = false) Integer groupId) {
+        LOGGER.debug("rest: getStudentsGpa({})", groupId);
+        return service.getStudentsGpa(groupId);
+    }
+
+    // curl -H "Content-Type: application/json" -X PUT -d '{"studentId":1,"name":"NewStudent","gpa":4.2,"groupId":1}' -v "localhost:8088/students"
     @RequestMapping(value = "/students", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateStudent(@RequestBody Student student) {
@@ -130,5 +139,15 @@ public class StudentsGroupsController {
     public void deleteGroup(@PathVariable(value = "id") Integer id) {
         LOGGER.debug("rest: deleteGroup({})", id);
         service.deleteGroup(id);
+    }
+
+    // curl -v "localhost:8088/groups/count"
+    @GetMapping(value = "/groups/count")
+    public
+    @ResponseBody
+    Integer getGroupsCount(@RequestParam(value = "minGradDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date minGradDate,
+                             @RequestParam(value = "maxGradDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date maxGradDate) {
+        LOGGER.debug("rest: getGroupsCount({}, {})", minGradDate, maxGradDate);
+        return service.getGroupsCount(minGradDate, maxGradDate);
     }
 }

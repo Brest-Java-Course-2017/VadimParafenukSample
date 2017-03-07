@@ -133,5 +133,4 @@ public interface ServiceApi {
      * @throws DataAccessException
      */
     Integer deleteGroup(Integer groupId) throws DataAccessException;
-
 }
