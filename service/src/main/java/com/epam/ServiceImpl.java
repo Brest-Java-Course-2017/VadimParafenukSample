@@ -25,7 +25,7 @@ public class ServiceImpl implements ServiceApi {
     }
 
     public List<Student> getStudents(Float minGpa, Float maxGpa, Integer groupId) throws DataAccessException {
-        LOGGER.debug("getStudents({}, {}, {})", maxGpa, maxGpa, groupId);
+        LOGGER.debug("getStudents({}, {}, {})", minGpa, maxGpa, groupId);
         return studentGroupDao.getStudents(minGpa, maxGpa, groupId);
     }
 
