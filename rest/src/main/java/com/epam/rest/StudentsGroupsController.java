@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 public class StudentsGroupsController {
 
@@ -146,7 +147,7 @@ public class StudentsGroupsController {
     public
     @ResponseBody
     Integer getGroupsCount(@RequestParam(value = "minGradDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date minGradDate,
-                             @RequestParam(value = "maxGradDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date maxGradDate) {
+                           @RequestParam(value = "maxGradDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date maxGradDate) {
         LOGGER.debug("rest: getGroupsCount({}, {})", minGradDate, maxGradDate);
         return service.getGroupsCount(minGradDate, maxGradDate);
     }
