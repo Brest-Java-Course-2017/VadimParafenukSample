@@ -4,11 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @ControllerAdvice
 public class RestErrorHandler {
 
@@ -19,14 +17,22 @@ public class RestErrorHandler {
     public @ResponseBody
     String handleDataAccessException(DataAccessException ex) {
         LOGGER.debug("Handling DataAccessException: " + ex);
-        return "DataAccessException: " + ex.getLocalizedMessage();
+        return ex.getLocalizedMessage();
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public @ResponseBody
     String handleIllegalArgumentException(IllegalArgumentException ex) {
-        LOGGER.debug("Handling handleIllegalArgumentException: " + ex);
-        return "IllegalArgumentException: " + ex.getLocalizedMessage();
+        LOGGER.debug("Handling IllegalArgumentException: " + ex);
+        return ex.getLocalizedMessage();
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public @ResponseBody
+    String handleIllegalStateException(IllegalStateException ex) {
+        LOGGER.debug("Handling IllegalStateException: " + ex);
+        return ex.getLocalizedMessage();
     }
 }
