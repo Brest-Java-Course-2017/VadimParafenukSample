@@ -135,7 +135,7 @@ public class StudentsGroupsController {
     }
 
     // curl -X DELETE localhost:8088/group/id{id}
-    @RequestMapping(value = "/group/id{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/groups/id{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
     public void deleteGroup(@PathVariable(value = "id") Integer id) {
         LOGGER.debug("rest: deleteGroup({})", id);

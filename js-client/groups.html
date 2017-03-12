@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.stickytableheaders.min.js"></script>
+    <script src="js/bootstrap-datepicker.min.js"></script>
+    <title>EIS Faculty</title>
+    <meta charset="utf-8">
+</head>
+<body>
+<div class="app">
+    <div class="navigation">
+    <div class="header">
+        <a class="href-groups" href="students.html"><p class="current-pos bold" id="current-univer">BST</p>&nbsp<p
+                class="current-pos light">University</p></a><span class="arrow"></span>
+        <p class="current-pos bold" id="current-group">EIS</p>&nbsp<p class="current-pos light">Faculty</p>
+    </div>
+    <div class="info">
+        <div class="info-right">
+            <p class="some-info">Programming and creating some computer stuff since 1985</p>
+        </div>
+        <div class="controls-info">
+            <button class="button small add" id="add-btn"><span class="icon add-icon"></span>Add group</button>
+        </div>
+
+    </div>
+    </div>
+    <div class="table-holder">
+        <table class="table-gr">
+            <thead>
+            <tr class="tr-gr">
+                <th class="st-th-1">Name</th>
+                <th class="st-th-3" id="filter">Graduate date</th>
+                <th class="st-th-2">GPA</th>
+            </tr>
+            </thead>
+            <tbody id="stud-body">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="js/shared.js"></script>
+<script src="js/groups.js"></script>
+</body>
+</html>
