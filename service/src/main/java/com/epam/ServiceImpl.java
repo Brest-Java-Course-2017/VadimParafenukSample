@@ -153,6 +153,13 @@ public class ServiceImpl implements ServiceApi {
         Group existGroup = studentGroupDao.getGroupById(group.getGroupId());
         Assert.notNull(existGroup, "Group should be correct");
 
+        try {
+            if (studentGroupDao.getGroupByName(group.getName()) != null)
+                throw new IllegalArgumentException("Group with name " + group.getName() + " already exist");
+        } catch (DataAccessException e) {
+            // Все отлично, так и должно быть
+        }
+
         return studentGroupDao.updateGroup(group);
     }
 
