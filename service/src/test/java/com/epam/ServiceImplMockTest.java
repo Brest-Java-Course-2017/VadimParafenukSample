@@ -51,7 +51,7 @@ public class ServiceImplMockTest {
         service.getStudentById(null);
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void addStudentTest() throws Exception {
         LOGGER.debug("test: addStudentTest()");
 
@@ -66,7 +66,7 @@ public class ServiceImplMockTest {
         assertEquals(id, (Integer)18);
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void updateStudentTest() throws Exception {
         LOGGER.debug("test: updateStudentTest()");
 
